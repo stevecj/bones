@@ -11,6 +11,13 @@ sidebars, comments, etc.
 // LOAD BONES CORE (if you remove this, the theme will break)
 require_once( 'library/bones.php' );
 
+$GLOBALS['BONES_THEME_CONFIG'] = array(
+  wp_get_theme()->get('TextDomain') => json_decode(
+    file_get_contents( get_template_directory() . "/config/defaults.json" ),
+    true
+  )
+);
+
 // CUSTOMIZE THE WORDPRESS ADMIN (off by default)
 // require_once( 'library/admin.php' );
 

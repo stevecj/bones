@@ -1,0 +1,40 @@
+About the defaults.json file:
+
+The config/defaults.json file in this directory provides default
+configuration values that may be used at runtime, at built time,
+or both.  In general, one should always re-run build processes (e.g.
+building .css files from .scss) after changing any data in that 
+configuration file.
+
+The content of the config/defaults.json file must describe an object
+containing a "defaults" key, and the value of the "defaults" key must
+be an object representing a map of settings and values.
+
+The settings are available from within php code in a nested
+associative array accessible via
+`$GLOBALS[ 'BONES_THEME_CONFIG' ][ wp_get_theme()->get('TextDomain') ][ 'defaults' ]`
+
+
+Settings:
+
+background:
+  color:
+    The default background color to show when no background color has
+    been specifically configured.  This should be a string containing
+    the hexadecimal color value without a leading "#" character.
+
+
+Side notes:
+
+In order to support defining colors according to the Sass best
+practices while at the same time storing the values in a
+configuration file, we would actually need to be able to cross-
+reference one configuration variable from another.  That (along with
+inline comments) is something that YAML supports, but JSON does not.
+
+Unfortunately for us, YAML is not compiled into php by default, so
+we should avoid depending on that.  If we stick with JSON, then we
+might want to introduce our own convention for specially formatted
+string values that refer to the paths of other values within the JSON
+data.  In that case, we'll need to write cide to dereference those
+strings in both php and in Ruby (for SASS processing) though.

@@ -3,6 +3,45 @@
 # quickly dive right in.
 # For more info about compass + SASS: http://net.tutsplus.com/tutorials/html-css-techniques/using-compass-and-sass-for-css-in-your-next-project/
 
+require 'json'
+
+module Bones
+  module Sass
+
+    class << self
+      def config
+        @config ||= load_defaults_config['defaults']
+      end
+
+      private
+
+      def load_defaults_config
+        scss_dir_path = File.dirname(__FILE__)
+        template_path = File.join(scss_dir_path, '..', '..')
+        config_defaults_path = File.join(template_path, 'config', 'defaults.json')
+        File.open(config_defaults_path) { |io|
+          JSON.load(io)
+        }
+      end
+    end
+
+  end
+end
+
+module Sass::Script::Functions
+
+  def theme_config_color(section, option)
+    assert_type section, :String
+    assert_type option, :String
+
+    option_text = Bones::Sass.config.
+      fetch(section.value).
+      fetch(option.value)
+
+    Sass::Script::Value::Color.from_hex('#' + option_text)
+  end
+
+end
 
 #########
 # 1. Set this to the root of your project when deployed:

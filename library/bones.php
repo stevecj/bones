@@ -165,6 +165,7 @@ THEME SUPPORT
 
 // Adding WP 3+ Functions & Theme Support
 function bones_theme_support() {
+	$default_custom_background_color = $GLOBALS[ 'BONES_THEME_CONFIG' ][ wp_get_theme()->get('TextDomain') ][ 'defaults' ][ 'custom-background' ][ 'color' ];
 
 	// wp thumbnails (sizes handled in functions.php)
 	add_theme_support( 'post-thumbnails' );
@@ -176,7 +177,7 @@ function bones_theme_support() {
 	add_theme_support( 'custom-background',
 	    array(
 	    'default-image' => '',    // background image default
-	    'default-color' => '',    // background color default (dont add the #)
+	    'default-color' => $default_custom_background_color,    // background color default (dont add the #)
 	    'wp-head-callback' => '_custom_background_cb',
 	    'admin-head-callback' => '',
 	    'admin-preview-callback' => ''
